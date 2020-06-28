@@ -14,9 +14,14 @@ const textapi = new AYLIENTextAPI({
 
 const app = express();
 app.use(cors());
+// // Initialize the main project folder
+// app.use(express.static("website")); // gotta check this
 app.use(express.static("dist"));
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
+// Setup Server
+const port = 8081;
 
 console.log(__dirname);
 
@@ -25,8 +30,8 @@ app.get("/", function (req, res) {
 });
 
 // designates what port the app will listen to for incoming requests
-app.listen(8081, function () {
-  console.log("Example app listening on port 8081!");
+app.listen(port, function () {
+  console.log(`Example app listening on port ${port}!`);
 });
 
 app.post("/sentiment", function (req, res) {
