@@ -1,5 +1,6 @@
 function handleSubmit(event) {
   event.preventDefault();
+  console.log("HANDLE SUBMIT BUTTON CLICKED");
 
   // check what text was put into the form field
   let formText = document.getElementById("name").value;

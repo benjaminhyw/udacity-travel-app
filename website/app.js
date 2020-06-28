@@ -6,6 +6,12 @@ const BASEURL = "https://api.openweathermap.org/data/2.5/weather?";
 let d = new Date();
 let newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
 
+const handleSubmitButton = document.getElementById("handleSubmit");
+// handleSubmitButton.addEventListener("click", () => {
+//   console.log("HANDLE SUBMIT BUTTON CLICKED");
+// });
+handleSubmitButton.addEventListener("click", handleSubmit(event));
+
 const generateButton = document.getElementById("generate");
 generateButton.addEventListener("click", async (event) => {
   const zip = document.getElementById("zip").value;
