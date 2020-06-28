@@ -1,5 +1,3 @@
-//BEN TODO: This file might need to get renamed to server.js.  Check requirements
-
 const AYLIENTextAPI = require("aylien_textapi");
 const cors = require("cors");
 const dotenv = require("dotenv");
