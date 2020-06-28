@@ -1,5 +1,5 @@
-const WEATHERAPIKEY = "d14498e1d6441199d14053bf26d766d9";
-// const WEATHERAPIKEY = process.env.WEATHERAPIKEY;
+// const WEATHERAPIKEY = "d14498e1d6441199d14053bf26d766d9";
+const WEATHERAPIKEY = process.env.WEATHERAPIKEY;
 const BASEURL = "https://api.openweathermap.org/data/2.5/weather?";
 
 // Create a new date instance dynamically with JS
@@ -11,40 +11,74 @@ async function generateButtonClickHandler(event) {
   const feelings = document.getElementById("feelings").value;
   event.preventDefault();
 
-  await (await fetchWeatherData(zip))
-    .json()
-    .then(async (result) => {
-      const object = {
-        date: newDate,
-        temperature: result.main.temp,
-        userResponse: feelings,
-      };
-      return object;
-    })
-    .then(async (result) => {
-      await postWeatherData("http://localhost:8081/add", result);
-    })
-    .then(async () => {
-      let response = await getAllWeatherData("http://localhost:8081/all");
-      console.log(response);
-    });
-}
-
-async function fetchWeatherData(zipCode) {
-  const query = `${BASEURL}zip=${zipCode}&appid=${WEATHERAPIKEY}`;
-  return await fetch(query);
-}
-
-async function postWeatherData(url = "", data = {}) {
-  await fetch(url, {
+  await fetch("http://localhost:8081/add", {
     method: "POST",
-    credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify({ zip: zip, feelings: feelings, date: newDate }),
+  }).then(async () => {
+    let response = await getAllWeatherData("http://localhost:8081/all");
   });
+
+  // await (await fetchWeatherData(zip))
+  //   .json()
+  //   .then(async (result) => {
+  //     const object = {
+  //       date: newDate,
+  //       temperature: result.main.temp,
+  //       userResponse: feelings,
+  //     };
+  //     return object;
+  //   })
+  //   .then(async (result) => {
+  //     await postWeatherData("http://localhost:8081/add", result);
+  //   })
+  //   .then(async () => {
+  //     let response = await getAllWeatherData("http://localhost:8081/all");
+  //     console.log(response);
+  //   });
 }
+
+// async function generateButtonClickHandler(event) {
+//   const zip = document.getElementById("zip").value;
+//   const feelings = document.getElementById("feelings").value;
+//   event.preventDefault();
+
+//   await (await fetchWeatherData(zip))
+//     .json()
+//     .then(async (result) => {
+//       const object = {
+//         date: newDate,
+//         temperature: result.main.temp,
+//         userResponse: feelings,
+//       };
+//       return object;
+//     })
+//     .then(async (result) => {
+//       await postWeatherData("http://localhost:8081/add", result);
+//     })
+//     .then(async () => {
+//       let response = await getAllWeatherData("http://localhost:8081/all");
+//       console.log(response);
+//     });
+// }
+
+// async function fetchWeatherData(zipCode) {
+//   const query = `${BASEURL}zip=${zipCode}&appid=${WEATHERAPIKEY}`;
+//   return await fetch(query);
+// }
+
+// async function postWeatherData(url = "", data = {}) {
+//   await fetch(url, {
+//     method: "POST",
+//     credentials: "same-origin",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(data),
+//   });
+// }
 
 async function getAllWeatherData(route) {
   const date = document.getElementById("date");
