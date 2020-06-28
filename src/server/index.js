@@ -15,7 +15,6 @@ const textapi = new AYLIENTextAPI({
 const app = express();
 app.use(cors());
 // // Initialize the main project folder
-// app.use(express.static("website")); // gotta check this
 app.use(express.static("dist"));
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
