@@ -22,10 +22,10 @@ async function generateButtonClickHandler(event) {
       return object;
     })
     .then(async (result) => {
-      await postWeatherData("/add", result);
+      await postWeatherData("http://localhost:8081/add", result);
     })
     .then(async () => {
-      let response = await getAllWeatherData("/all");
+      let response = await getAllWeatherData("http://localhost:8081/all");
       console.log(response);
     });
 }
