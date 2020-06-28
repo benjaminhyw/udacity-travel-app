@@ -47,3 +47,31 @@ app.post("/sentiment", function (req, res) {
     res.send(result);
   });
 });
+
+// Setup empty JS object to act as endpoint for all routes
+projectData = {};
+
+// Routes
+app.get("/all", sendData);
+
+function sendData(request, response) {
+  response.send(projectData);
+}
+
+app.post("/add", callBack);
+
+function callBack(request, response) {
+  console.log("POST");
+
+  let updatedProjectData = {
+    temperature: request.body.temperature,
+    date: request.body.date,
+    userResponse: request.body.userResponse,
+  };
+
+  projectData[request.body.date] = updatedProjectData;
+
+  console.log(projectData);
+
+  response.send("POST received");
+}

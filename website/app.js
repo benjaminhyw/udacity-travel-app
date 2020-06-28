@@ -1,5 +1,5 @@
 /* Global Variables */
-const WEATHERAPIKEY = process.env.WEATHERAPIKEY,
+const WEATHERAPIKEY = "d14498e1d6441199d14053bf26d766d9";
 const BASEURL = "https://api.openweathermap.org/data/2.5/weather?";
 
 // Create a new date instance dynamically with JS
@@ -23,10 +23,10 @@ generateButton.addEventListener("click", async (event) => {
       return object;
     })
     .then(async (result) => {
-      await postWeatherData("/add", result);
+      await postWeatherData("http://localhost:8081/add", result);
     })
     .then(async () => {
-      let response = await getAllWeatherData("/all");
+      let response = await getAllWeatherData("http://localhost:8081/all");
       console.log(response);
     });
 });
