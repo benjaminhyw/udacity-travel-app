@@ -59,7 +59,6 @@ const BASEURL = "https://api.openweathermap.org/data/2.5/weather?";
 async function fetchWeatherData(zipCode) {
   const query = `${BASEURL}zip=${zipCode}&appid=${WEATHERAPIKEY}`;
   const response = await fetch(query);
-  console.log("fetchWeatherData Response:");
 
   return await response.json();
 }
@@ -80,10 +79,6 @@ function callBack(request, response) {
   console.log("POST");
   fetchWeatherData(request.body.zip)
     .then((res) => {
-      // console.log(JSON.stringify(res.body));
-      // console.log(JSON.stringify(res));
-      console.log("!!!.then()!!!");
-      // console.log(JSON.stringify(res.body));
       return res;
     })
     .then((res) => {
@@ -98,14 +93,4 @@ function callBack(request, response) {
 
       response.send(res);
     });
-
-  // let updatedProjectData = {
-  //   temperature: request.body.temperature,
-  //   date: request.body.date,
-  //   userResponse: request.body.userResponse,
-  // };
-
-  // projectData[request.body.date] = updatedProjectData;
-
-  console.log(projectData);
 }
