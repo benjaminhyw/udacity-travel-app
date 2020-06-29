@@ -1,13 +1,9 @@
-const WEATHERAPIKEY = process.env.WEATHERAPIKEY;
-const BASEURL = "https://api.openweathermap.org/data/2.5/weather?";
-
 // Create a new date instance dynamically with JS
 let d = new Date();
 let newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
 
-async function generateButtonClickHandler(event) {
-  const zip = document.getElementById("zip").value;
-  const feelings = document.getElementById("feelings").value;
+async function cityNameSubmitButtonClickHandler(event) {
+  const city = document.getElementById("city").value;
   event.preventDefault();
 
   await fetch("http://localhost:8081/add", {
@@ -15,24 +11,26 @@ async function generateButtonClickHandler(event) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ zip: zip, feelings: feelings, date: newDate }),
+    body: JSON.stringify({ city: city, date: newDate }),
   }).then(async () => {
-    await getAllWeatherData("http://localhost:8081/all");
+    await getAllCityData("http://localhost:8081/all");
   });
 }
 
-async function getAllWeatherData(route) {
-  const date = document.getElementById("date");
-  const temp = document.getElementById("temp");
-  const content = document.getElementById("content");
+async function getAllCityData(route) {
+  const cityName = document.getElementById("cityName");
+  const latitude = document.getElementById("latitude");
+  const longitude = document.getElementById("longitude");
+  const country = document.getElementById("country");
 
   await fetch(route).then(async (result) => {
     result = await result.json();
 
-    date.innerHTML = result[newDate].date;
-    temp.innerHTML = result[newDate].temperature;
-    content.innerHTML = result[newDate].userResponse;
+    cityName.innerHTML = result[newDate].cityName;
+    latitude.innerHTML = result[newDate].latitude;
+    longitude.innerHTML = result[newDate].longitude;
+    country.innerHTML = result[newDate].country;
   });
 }
 
-export { generateButtonClickHandler };
+export { cityNameSubmitButtonClickHandler };
