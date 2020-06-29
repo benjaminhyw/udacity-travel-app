@@ -55,9 +55,18 @@ app.post("/sentiment", function (req, res) {
 
 const WEATHERAPIKEY = process.env.WEATHERAPIKEY;
 const BASEURL = "https://api.openweathermap.org/data/2.5/weather?";
+const GEONAMESUSERNAME = process.env.GEONAMESUSERNAME;
+const GEONAMESBASEURL = "http://api.geonames.org/searchJSON?q=";
 
 async function fetchWeatherData(zipCode) {
   const query = `${BASEURL}zip=${zipCode}&appid=${WEATHERAPIKEY}`;
+  const response = await fetch(query);
+
+  return await response.json();
+}
+
+async function fetchWeatherDataGEONAMES(cityName) {
+  const query = `${GEONAMESBASEURL}${cityName}&username=${GEONAMESUSERNAME}`;
   const response = await fetch(query);
 
   return await response.json();
@@ -73,7 +82,7 @@ function sendData(request, response) {
   response.send(projectData);
 }
 
-app.post("/add", callBack);
+app.post("/add", geonamesCallBack);
 
 function callBack(request, response) {
   console.log("POST");
@@ -87,6 +96,29 @@ function callBack(request, response) {
         temperature: res.main.temp,
         date: request.body.date,
         userResponse: request.body.feelings,
+      };
+
+      projectData[request.body.date] = updatedProjectData;
+
+      response.send(res);
+    });
+}
+
+function geonamesCallBack(request, response) {
+  console.log("POST");
+  fetchWeatherDataGEONAMES(request.body.city)
+    .then((res) => {
+      console.log(request.body);
+      return res;
+    })
+    .then((res) => {
+      console.log(res);
+      let updatedProjectData = {
+        cityName: request.body.city,
+        latitude: res.geonames[0].lat,
+        longitude: res.geonames[0].lng,
+        country: res.geonames[0].countryName,
+        date: request.body.date,
       };
 
       projectData[request.body.date] = updatedProjectData;
