@@ -18,6 +18,7 @@ async function cityNameSubmitButtonClickHandler(event) {
 }
 
 async function getAllCityData(route) {
+  const date = document.getElementById("date");
   const cityName = document.getElementById("cityName");
   const latitude = document.getElementById("latitude");
   const longitude = document.getElementById("longitude");
@@ -26,6 +27,7 @@ async function getAllCityData(route) {
   await fetch(route).then(async (result) => {
     result = await result.json();
 
+    date.innerHTML = result[newDate].date;
     cityName.innerHTML = result[newDate].cityName;
     latitude.innerHTML = result[newDate].latitude;
     longitude.innerHTML = result[newDate].longitude;
