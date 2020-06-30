@@ -2,6 +2,7 @@
 let d = new Date();
 let newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
 
+let today = new Date(d.toLocaleDateString());
 async function cityNameSubmitButtonClickHandler(event) {
   const city = document.getElementById("city").value;
   const travelDate = document.getElementById("date").value;
@@ -30,17 +31,16 @@ async function getAllCityData(route) {
   const longitude = document.getElementById("longitude");
   const country = document.getElementById("country");
   const travelDate = document.getElementById("travelDate");
+  const daysBeforeDeparture = document.getElementById("daysBeforeDeparture");
 
   await fetch(route).then(async (result) => {
     result = await result.json();
+    const d2 = new Date(document.getElementById("date").value);
+    let formattedTravelDate =
+      d2.getMonth() + "." + d2.getDate() + "." + d2.getFullYear();
 
-    let formattedTravelDate = new Date(result[newDate].travelDate);
-    formattedTravelDate =
-      formattedTravelDate.getMonth() +
-      "." +
-      formattedTravelDate.getDate() +
-      "." +
-      formattedTravelDate.getFullYear();
+    let timesDiff = Math.abs(d2.getTime() - today.getTime());
+    let diffDays = Math.ceil(timesDiff / (1000 * 3600 * 24));
 
     // BEN TODO: if you use newDate as the way you enter data, it will always get overwritten
     // You will have to come back to this.
@@ -50,6 +50,7 @@ async function getAllCityData(route) {
     longitude.innerHTML = `Longitude: ${result[newDate].longitude}`;
     country.innerHTML = `Country: ${result[newDate].country}`;
     travelDate.innerHTML = `Travel Date: ${formattedTravelDate}`;
+    daysBeforeDeparture.innerHTML = `Days Before Departure: ${diffDays}`;
   });
 }
 
