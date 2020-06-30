@@ -64,10 +64,11 @@ function geonamesCallBack(request, response) {
         latitude: res.geonames[0].lat,
         longitude: res.geonames[0].lng,
         country: res.geonames[0].countryName,
-        date: request.body.date,
+        todaysDate: request.body.todaysDate,
+        travelDate: request.body.travelDate,
       };
 
-      projectData[request.body.date] = updatedProjectData;
+      projectData[request.body.todaysDate] = updatedProjectData;
 
       response.send(res);
     });
