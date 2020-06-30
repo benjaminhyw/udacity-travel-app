@@ -37,6 +37,8 @@ async function getAllCityData(route) {
   const country = document.getElementById("country");
   const travelDate = document.getElementById("travelDate");
   const daysBeforeDeparture = document.getElementById("daysBeforeDeparture");
+  const currentForecast = document.getElementById("currentForecast");
+  const predictedForecast = document.getElementById("predictedForecast");
 
   await fetch(route).then(async (result) => {
     result = await result.json();
@@ -50,6 +52,16 @@ async function getAllCityData(route) {
     country.innerHTML = `Country: ${result[newDate].country}`;
     travelDate.innerHTML = `Travel Date: ${result[newDate].travelDate}`;
     daysBeforeDeparture.innerHTML = `Days Before Departure: ${result[newDate].daysBeforeDeparture}`;
+
+    if (result[newDate].currentForecast) {
+      currentForecast.innerHTML = `Current Forecast: ${result[newDate].currentForecast}`;
+      predictedForecast.innerHTML = "";
+    }
+
+    if (result[newDate].predictedForecast) {
+      predictedForecast.innerHTML = `Predicted Forecast: ${result[newDate].predictedForecast}`;
+      currentForecast.innerHTML = "";
+    }
   });
 }
 
