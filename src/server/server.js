@@ -30,6 +30,8 @@ app.listen(port, function () {
 
 const GEONAMESUSERNAME = process.env.GEONAMESUSERNAME;
 const GEONAMESBASEURL = "http://api.geonames.org/searchJSON?q=";
+const WEATHERBITAPI_KEY = process.env.WEATHERBITAPI_KEY;
+const WEATHERBITBASEURL = "https://api.weatherbit.io/v2.0/forecast/daily?";
 
 async function fetchWeatherDataGEONAMES(cityName) {
   const query = `${GEONAMESBASEURL}${cityName}&username=${GEONAMESUSERNAME}`;
@@ -71,5 +73,9 @@ function geonamesCallBack(request, response) {
       projectData[request.body.todaysDate] = updatedProjectData;
 
       response.send(res);
+    })
+    .then(() => {
+      // this is where the weatherAPI stuff needs to happen
+      // Notes from Project Introduction:  If the trip is within a week, you will get the current weather forecast. If the trip is in the future, you will get a predicted forecast
     });
 }
