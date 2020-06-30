@@ -30,8 +30,12 @@ app.listen(port, function () {
 
 const GEONAMESUSERNAME = process.env.GEONAMESUSERNAME;
 const GEONAMESBASEURL = "http://api.geonames.org/searchJSON?q=";
+
 const WEATHERBITAPI_KEY = process.env.WEATHERBITAPI_KEY;
-const WEATHERBITBASEURL = "https://api.weatherbit.io/v2.0/forecast/daily?";
+const WEATHERBITCURRENTWEATHERBASEURL =
+  "https://api.weatherbit.io/v2.0/current?";
+const WEATHERBITFORECASTBASEURL =
+  "https://api.weatherbit.io/v2.0/forecast/daily?";
 
 async function fetchWeatherDataGEONAMES(cityName) {
   const query = `${GEONAMESBASEURL}${cityName}&username=${GEONAMESUSERNAME}`;
