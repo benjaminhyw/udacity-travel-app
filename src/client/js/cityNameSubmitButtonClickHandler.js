@@ -2,10 +2,14 @@
 let d = new Date();
 let newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
 
-let today = new Date(d.toLocaleDateString());
 async function cityNameSubmitButtonClickHandler(event) {
   const city = document.getElementById("city").value;
-  const travelDate = document.getElementById("date").value;
+  let d2 = new Date(document.getElementById("date").value);
+  let formattedTravelDate =
+    d2.getMonth() + "." + d2.getDate() + "." + d2.getFullYear();
+  let today = new Date(d.toLocaleDateString());
+  let timesDiff = Math.abs(d2.getTime() - today.getTime());
+  let diffDays = Math.ceil(timesDiff / (1000 * 3600 * 24));
 
   event.preventDefault();
 
@@ -16,8 +20,9 @@ async function cityNameSubmitButtonClickHandler(event) {
     },
     body: JSON.stringify({
       city: city,
-      travelDate: travelDate,
+      travelDate: formattedTravelDate,
       todaysDate: newDate,
+      daysBeforeDeparture: diffDays,
     }),
   }).then(async () => {
     await getAllCityData("http://localhost:8081/all");
@@ -35,12 +40,6 @@ async function getAllCityData(route) {
 
   await fetch(route).then(async (result) => {
     result = await result.json();
-    const d2 = new Date(document.getElementById("date").value);
-    let formattedTravelDate =
-      d2.getMonth() + "." + d2.getDate() + "." + d2.getFullYear();
-
-    let timesDiff = Math.abs(d2.getTime() - today.getTime());
-    let diffDays = Math.ceil(timesDiff / (1000 * 3600 * 24));
 
     // BEN TODO: if you use newDate as the way you enter data, it will always get overwritten
     // You will have to come back to this.
@@ -49,8 +48,8 @@ async function getAllCityData(route) {
     latitude.innerHTML = `Latitude: ${result[newDate].latitude}`;
     longitude.innerHTML = `Longitude: ${result[newDate].longitude}`;
     country.innerHTML = `Country: ${result[newDate].country}`;
-    travelDate.innerHTML = `Travel Date: ${formattedTravelDate}`;
-    daysBeforeDeparture.innerHTML = `Days Before Departure: ${diffDays}`;
+    travelDate.innerHTML = `Travel Date: ${result[newDate].travelDate}`;
+    daysBeforeDeparture.innerHTML = `Days Before Departure: ${result[newDate].daysBeforeDeparture}`;
   });
 }
 

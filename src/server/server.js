@@ -68,6 +68,7 @@ function geonamesCallBack(request, response) {
         country: res.geonames[0].countryName,
         todaysDate: request.body.todaysDate,
         travelDate: request.body.travelDate,
+        daysBeforeDeparture: request.body.daysBeforeDeparture,
       };
 
       projectData[request.body.todaysDate] = updatedProjectData;
@@ -76,6 +77,7 @@ function geonamesCallBack(request, response) {
     })
     .then(() => {
       // this is where the weatherAPI stuff needs to happen
-      // Notes from Project Introduction:  If the trip is within a week, you will get the current weather forecast. If the trip is in the future, you will get a predicted forecast
+      // Notes from Project Introduction:  If the trip is within a week, you will get the current weather forecast.
+      // If the trip is in the future, you will get a predicted forecast
     });
 }
