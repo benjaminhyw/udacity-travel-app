@@ -34,6 +34,14 @@ async function getAllCityData(route) {
   await fetch(route).then(async (result) => {
     result = await result.json();
 
+    let formattedTravelDate = new Date(result[newDate].travelDate);
+    formattedTravelDate =
+      formattedTravelDate.getMonth() +
+      "." +
+      formattedTravelDate.getDate() +
+      "." +
+      formattedTravelDate.getFullYear();
+
     // BEN TODO: if you use newDate as the way you enter data, it will always get overwritten
     // You will have to come back to this.
     todaysDate.innerHTML = `Today's Date: ${result[newDate].todaysDate}`;
@@ -41,7 +49,7 @@ async function getAllCityData(route) {
     latitude.innerHTML = `Latitude: ${result[newDate].latitude}`;
     longitude.innerHTML = `Longitude: ${result[newDate].longitude}`;
     country.innerHTML = `Country: ${result[newDate].country}`;
-    travelDate.innerHTML = `Travel Date: ${result[newDate].travelDate}`;
+    travelDate.innerHTML = `Travel Date: ${formattedTravelDate}`;
   });
 }
 
