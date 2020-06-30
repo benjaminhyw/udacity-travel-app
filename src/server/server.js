@@ -31,9 +31,35 @@ app.listen(port, function () {
 const GEONAMESUSERNAME = process.env.GEONAMESUSERNAME;
 const GEONAMESBASEURL = "http://api.geonames.org/searchJSON?q=";
 
+const WEATHERBITAPI_KEY = process.env.WEATHERBITAPI_KEY;
+const WEATHERBITCURRENTWEATHERBASEURL =
+  "https://api.weatherbit.io/v2.0/current?";
+const WEATHERBITFORECASTBASEURL =
+  "https://api.weatherbit.io/v2.0/forecast/daily?";
+
 async function fetchWeatherDataGEONAMES(cityName) {
   const query = `${GEONAMESBASEURL}${cityName}&username=${GEONAMESUSERNAME}`;
   const response = await fetch(query);
+
+  return await response.json();
+}
+
+async function fetchWeatherDataWEATHERBIT(
+  latitude,
+  longitude,
+  daysBeforeDeparture
+) {
+  let query = "";
+
+  if (daysBeforeDeparture <= 7) {
+    query = `${WEATHERBITCURRENTWEATHERBASEURL}`;
+  } else {
+    query = `${WEATHERBITFORECASTBASEURL}`;
+  }
+
+  query = `${query}&lat=${latitude}&lon=${longitude}&key=${WEATHERBITAPI_KEY}`;
+  const response = await fetch(query);
+  console.log("Inside fetchWeatherDataWeatherbit");
 
   return await response.json();
 }
@@ -54,22 +80,40 @@ function geonamesCallBack(request, response) {
   console.log("POST");
   fetchWeatherDataGEONAMES(request.body.city)
     .then((res) => {
-      console.log(request.body);
       return res;
     })
-    .then((res) => {
-      console.log(res);
-      let updatedProjectData = {
-        cityName: request.body.city,
-        latitude: res.geonames[0].lat,
-        longitude: res.geonames[0].lng,
-        country: res.geonames[0].countryName,
-        todaysDate: request.body.todaysDate,
-        travelDate: request.body.travelDate,
-      };
+    .then((geonamesRes) => {
+      fetchWeatherDataWEATHERBIT(
+        geonamesRes.geonames[0].lat,
+        geonamesRes.geonames[0].lng,
+        request.body.daysBeforeDeparture
+      ).then((res) => {
+        console.log(res);
 
-      projectData[request.body.todaysDate] = updatedProjectData;
+        let updatedProjectData = {
+          cityName: request.body.city,
+          latitude: geonamesRes.geonames[0].lat,
+          longitude: geonamesRes.geonames[0].lng,
+          country: geonamesRes.geonames[0].countryName,
+          todaysDate: request.body.todaysDate,
+          travelDate: request.body.travelDate,
+          daysBeforeDeparture: request.body.daysBeforeDeparture,
+        };
 
-      response.send(res);
+        console.log(res);
+
+        if (updatedProjectData.daysBeforeDeparture <= 7) {
+          updatedProjectData.currentForecast = res.data[0].weather.description;
+          updatedProjectData.predictedForecast = undefined;
+        } else {
+          updatedProjectData.predictedForecast =
+            res.data[0].weather.description;
+          updatedProjectData.currentForecast = undefined;
+        }
+
+        projectData[request.body.todaysDate] = updatedProjectData;
+
+        response.send(res);
+      });
     });
 }
