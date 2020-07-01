@@ -9,15 +9,14 @@ dotenv.config();
 
 const app = express();
 app.use(cors());
-// // Initialize the main project folder
-app.use(express.static("dist"));
+app.use(express.static("dist")); // Initialize the main project folder
 app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support url encoded bodies
 
 // Setup Server
 const port = 8081;
 
-// Estabish api keys & base URL's
+// Estabish API keys & base URL's
 const GEONAMES_USERNAME = process.env.GEONAMES_USERNAME;
 const GEONAMES_BASEURL = "http://api.geonames.org/searchJSON?q=";
 
@@ -40,6 +39,7 @@ app.listen(port, function () {
   console.log(`Example app listening on port ${port}!`);
 });
 
+// Establish fetch API functions
 async function fetchGeonamesData(cityName) {
   const query = `${GEONAMES_BASEURL}${cityName}&username=${GEONAMES_USERNAME}`;
   const response = await fetch(query);
