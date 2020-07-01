@@ -3,7 +3,7 @@ import { submitHandler } from "./js/submitHandler";
 
 import "./styles/style.scss";
 
-const handleSubmitButton = document.getElementById("handleSubmit");
-handleSubmitButton.addEventListener("click", submitHandler);
+const submitButton = document.getElementById("submit");
+submitButton.addEventListener("click", submitHandler);
 
 export { isValueEmpty, submitHandler };
