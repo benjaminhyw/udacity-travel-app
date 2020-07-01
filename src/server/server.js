@@ -106,10 +106,10 @@ function geonamesCallBack(request, response) {
             latitude: geonamesRes.geonames[0].lat,
             longitude: geonamesRes.geonames[0].lng,
             country: geonamesRes.geonames[0].countryName,
-            todaysDate: request.body.todaysDate,
-            travelDate: request.body.travelDate,
+            formattedTodaysDate: request.body.formattedTodaysDate,
+            formattedTravelDate: request.body.formattedTravelDate,
             daysBeforeDeparture: request.body.daysBeforeDeparture,
-            imageURL: pixabayRes.hits[0].largeImageURL,
+            imageURL: pixabayRes.hits[0].largeImageURL, // might need validation if no result found.  "burlingame" triggered this error.
           };
 
           console.log(weatherbitRes);
@@ -124,7 +124,7 @@ function geonamesCallBack(request, response) {
             updatedProjectData.currentForecast = undefined;
           }
 
-          projectData[request.body.todaysDate] = updatedProjectData;
+          projectData[request.body.formattedTodaysDate] = updatedProjectData;
 
           response.send(weatherbitRes);
         });

@@ -26,8 +26,8 @@ async function submitHandler(event) {
         },
         body: JSON.stringify({
           city: cityValue,
-          travelDate: formattedTravelDate,
-          todaysDate: newDate,
+          formattedTravelDate: formattedTravelDate,
+          formattedTodaysDate: newDate,
           daysBeforeDeparture: daysBeforeDeparture,
         }),
       }).then(async () => {
@@ -44,12 +44,12 @@ async function submitHandler(event) {
 }
 
 async function getAllCityData(route) {
-  const todaysDate = document.getElementById("todaysDate");
+  const formattedTodaysDate = document.getElementById("formattedTodaysDate");
   const cityName = document.getElementById("cityName");
   const latitude = document.getElementById("latitude");
   const longitude = document.getElementById("longitude");
   const country = document.getElementById("country");
-  const travelDate = document.getElementById("travelDate");
+  const formattedTravelDate = document.getElementById("formattedTravelDate");
   const daysBeforeDeparture = document.getElementById("daysBeforeDeparture");
   const currentForecast = document.getElementById("currentForecast");
   const predictedForecast = document.getElementById("predictedForecast");
@@ -58,12 +58,12 @@ async function getAllCityData(route) {
   await fetch(route).then(async (result) => {
     result = await result.json();
 
-    todaysDate.innerHTML = `Today's Date: ${result[newDate].todaysDate}`;
+    formattedTodaysDate.innerHTML = `Today's Date: ${result[newDate].formattedTodaysDate}`;
     cityName.innerHTML = `Target Destination: ${result[newDate].cityName}`;
     latitude.innerHTML = `Latitude: ${result[newDate].latitude}`;
     longitude.innerHTML = `Longitude: ${result[newDate].longitude}`;
     country.innerHTML = `Country: ${result[newDate].country}`;
-    travelDate.innerHTML = `Travel Date: ${result[newDate].travelDate}`;
+    formattedTravelDate.innerHTML = `Travel Date: ${result[newDate].formattedTravelDate}`;
     daysBeforeDeparture.innerHTML = `Days Before Departure: ${result[newDate].daysBeforeDeparture}`;
 
     if (result[newDate].currentForecast) {
