@@ -39,6 +39,7 @@ async function getAllCityData(route) {
   const daysBeforeDeparture = document.getElementById("daysBeforeDeparture");
   const currentForecast = document.getElementById("currentForecast");
   const predictedForecast = document.getElementById("predictedForecast");
+  const locationPicture = document.getElementById("locationPicture");
 
   await fetch(route).then(async (result) => {
     result = await result.json();
@@ -62,6 +63,9 @@ async function getAllCityData(route) {
       predictedForecast.innerHTML = `Predicted Forecast: ${result[newDate].predictedForecast}`;
       currentForecast.innerHTML = "";
     }
+    locationPicture.src = result[newDate].imageURL;
+    locationPicture.height = "300";
+    locationPicture.width = "300";
   });
 }
 
