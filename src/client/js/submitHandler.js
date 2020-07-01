@@ -76,6 +76,9 @@ async function getAllCityData(route) {
       currentForecast.innerHTML = "";
       predictedForecast.innerHTML = "";
 
+      // BEN TODO: Make this DRY (part 1)
+      locationPicture.height = "300";
+      locationPicture.width = "300";
       if (result[formattedToday].imageURL) {
         locationPicture.src = result[formattedToday].imageURL;
         locationPicture.title = result[formattedToday].cityName;
@@ -103,6 +106,7 @@ async function getAllCityData(route) {
         currentForecast.innerHTML = "";
       }
 
+      // BEN TODO: Make this DRY (part 2)
       locationPicture.height = "300";
       locationPicture.width = "300";
       if (result[formattedToday].imageURL) {
