@@ -37,6 +37,9 @@ const WEATHERBITCURRENTWEATHERBASEURL =
 const WEATHERBITFORECASTBASEURL =
   "https://api.weatherbit.io/v2.0/forecast/daily?";
 
+const PIXABAYAPIKEY = process.env.PIXABAYAPIKEY;
+const PIXABAYBASEURL = `https://pixabay.com/api/?key=${PIXABAYAPIKEY}&q=`;
+
 async function fetchWeatherDataGEONAMES(cityName) {
   const query = `${GEONAMESBASEURL}${cityName}&username=${GEONAMESUSERNAME}`;
   const response = await fetch(query);
@@ -64,6 +67,13 @@ async function fetchWeatherDataWEATHERBIT(
   return await response.json();
 }
 
+async function fetchWeatherDataPIXABAY(cityName) {
+  const query = `${PIXABAYBASEURL}${cityName}`;
+  const response = await fetch(query);
+
+  return await response.json();
+}
+
 // Setup empty JS object to act as endpoint for all routes
 projectData = {};
 
@@ -87,8 +97,8 @@ function geonamesCallBack(request, response) {
         geonamesRes.geonames[0].lat,
         geonamesRes.geonames[0].lng,
         request.body.daysBeforeDeparture
-      ).then((res) => {
-        console.log(res);
+      ).then((weatherbitRes) => {
+        console.log(weatherbitRes);
 
         let updatedProjectData = {
           cityName: request.body.city,
@@ -100,20 +110,21 @@ function geonamesCallBack(request, response) {
           daysBeforeDeparture: request.body.daysBeforeDeparture,
         };
 
-        console.log(res);
+        console.log(weatherbitRes);
 
         if (updatedProjectData.daysBeforeDeparture <= 7) {
-          updatedProjectData.currentForecast = res.data[0].weather.description;
+          updatedProjectData.currentForecast =
+            weatherbitRes.data[0].weather.description;
           updatedProjectData.predictedForecast = undefined;
         } else {
           updatedProjectData.predictedForecast =
-            res.data[0].weather.description;
+            weatherbitRes.data[0].weather.description;
           updatedProjectData.currentForecast = undefined;
         }
 
         projectData[request.body.todaysDate] = updatedProjectData;
 
-        response.send(res);
+        response.send(weatherbitRes);
       });
     });
 }
