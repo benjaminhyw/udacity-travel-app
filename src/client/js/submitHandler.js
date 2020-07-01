@@ -80,6 +80,7 @@ async function getAllCityData(route) {
       predictedForecast.innerHTML = `Predicted Forecast: ${result[formattedToday].predictedForecast}`;
       currentForecast.innerHTML = "";
     }
+
     locationPicture.src = result[formattedToday].imageURL;
     locationPicture.height = "300";
     locationPicture.width = "300";

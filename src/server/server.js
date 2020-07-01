@@ -17,6 +17,18 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 // Setup Server
 const port = 8081;
 
+// Estabish api keys & base URL's
+const GEONAMES_USERNAME = process.env.GEONAMES_USERNAME;
+const GEONAMES_BASEURL = "http://api.geonames.org/searchJSON?q=";
+
+const WEATHERBIT_APIKEY = process.env.WEATHERBIT_APIKEY;
+const WEATHERBIT_CURRENT_BASEURL = "https://api.weatherbit.io/v2.0/current?";
+const WEATHERBIT_FORECAST_BASEURL =
+  "https://api.weatherbit.io/v2.0/forecast/daily?";
+
+const PIXABAY_APIKEY = process.env.PIXABAY_APIKEY;
+const PIXABAY_BASEURL = `https://pixabay.com/api/?key=${PIXABAY_APIKEY}&q=`;
+
 console.log(__dirname);
 
 app.get("/", function (req, res) {
@@ -28,20 +40,8 @@ app.listen(port, function () {
   console.log(`Example app listening on port ${port}!`);
 });
 
-const GEONAMES_USERNAME = process.env.GEONAMES_USERNAME;
-const GEONAMESBASEURL = "http://api.geonames.org/searchJSON?q=";
-
-const WEATHERBIT_APIKEY = process.env.WEATHERBIT_APIKEY;
-const WEATHERBITCURRENTWEATHERBASEURL =
-  "https://api.weatherbit.io/v2.0/current?";
-const WEATHERBITFORECASTBASEURL =
-  "https://api.weatherbit.io/v2.0/forecast/daily?";
-
-const PIXABAY_APIKEY = process.env.PIXABAY_APIKEY;
-const PIXABAYBASEURL = `https://pixabay.com/api/?key=${PIXABAY_APIKEY}&q=`;
-
 async function fetchWeatherDataGEONAMES(cityName) {
-  const query = `${GEONAMESBASEURL}${cityName}&username=${GEONAMES_USERNAME}`;
+  const query = `${GEONAMES_BASEURL}${cityName}&username=${GEONAMES_USERNAME}`;
   const response = await fetch(query);
 
   return await response.json();
@@ -55,9 +55,9 @@ async function fetchWeatherDataWEATHERBIT(
   let query = "";
 
   if (daysBeforeDeparture <= 7) {
-    query = `${WEATHERBITCURRENTWEATHERBASEURL}`;
+    query = `${WEATHERBIT_CURRENT_BASEURL}`;
   } else {
-    query = `${WEATHERBITFORECASTBASEURL}`;
+    query = `${WEATHERBIT_FORECAST_BASEURL}`;
   }
 
   query = `${query}&lat=${latitude}&lon=${longitude}&key=${WEATHERBIT_APIKEY}`;
@@ -68,7 +68,7 @@ async function fetchWeatherDataWEATHERBIT(
 }
 
 async function fetchWeatherDataPIXABAY(cityName) {
-  const query = `${PIXABAYBASEURL}${cityName}`;
+  const query = `${PIXABAY_BASEURL}${cityName}`;
   const response = await fetch(query);
 
   return await response.json();
