@@ -12,17 +12,17 @@ async function submitHandler(event) {
     console.log("::: Form Submitted :::");
 
     const travelDate = new Date(dateValue);
-    const formattedTravelDate =
-      travelDate.getMonth() +
-      "." +
-      travelDate.getDate() +
-      "." +
-      travelDate.getFullYear();
     const todaysDate = new Date(today.toLocaleDateString());
     const timesDiff = travelDate.getTime() - todaysDate.getTime();
 
     if (Math.sign(timesDiff) !== -1) {
       const daysBeforeDeparture = Math.ceil(timesDiff / (1000 * 3600 * 24));
+      const formattedTravelDate =
+        travelDate.getMonth() +
+        "." +
+        travelDate.getDate() +
+        "." +
+        travelDate.getFullYear();
 
       await fetch("http://localhost:8081/add", {
         method: "POST",
