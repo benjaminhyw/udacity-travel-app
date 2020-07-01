@@ -82,7 +82,7 @@ function sendData(request, response) {
 app.post("/add", addCallback);
 
 function addCallback(request, response) {
-  console.log("POST");
+  console.log("POST /add");
   fetchGeonamesData(request.body.city)
     .then((res) => {
       return res;
