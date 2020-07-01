@@ -64,29 +64,45 @@ async function getAllCityData(route) {
   await fetch(route).then(async (result) => {
     result = await result.json();
 
-    formattedTodaysDate.innerHTML = `Today's Date: ${result[formattedToday].formattedTodaysDate}`;
-    cityName.innerHTML = `Target Destination: ${result[formattedToday].cityName}`;
-    latitude.innerHTML = `Latitude: ${result[formattedToday].latitude}`;
-    longitude.innerHTML = `Longitude: ${result[formattedToday].longitude}`;
-    country.innerHTML = `Country: ${result[formattedToday].country}`;
-    formattedTravelDate.innerHTML = `Travel Date: ${result[formattedToday].formattedTravelDate}`;
-    daysBeforeDeparture.innerHTML = `Days Before Departure: ${result[formattedToday].daysBeforeDeparture}`;
-
-    if (result[formattedToday].currentForecast) {
-      currentForecast.innerHTML = `Current Forecast: ${result[formattedToday].currentForecast}`;
-      predictedForecast.innerHTML = "";
-    }
-
-    if (result[formattedToday].predictedForecast) {
-      predictedForecast.innerHTML = `Predicted Forecast: ${result[formattedToday].predictedForecast}`;
+    if (result[formattedToday].error) {
+      error.innerHTML = `Error: ${result[formattedToday].error}`;
+      formattedTodaysDate.innerHTML = "";
+      cityName.innerHTML = "";
+      latitude.innerHTML = "";
+      longitude.innerHTML = "";
+      country.innerHTML = "";
+      formattedTravelDate.innerHTML = "";
+      daysBeforeDeparture.innerHTML = "";
       currentForecast.innerHTML = "";
+      predictedForecast.innerHTML = "";
+      locationPicture.src = "";
+      locationPicture.height = "0";
+      locationPicture.width = "0";
+    } else {
+      formattedTodaysDate.innerHTML = `Today's Date: ${result[formattedToday].formattedTodaysDate}`;
+      cityName.innerHTML = `Target Destination: ${result[formattedToday].cityName}`;
+      latitude.innerHTML = `Latitude: ${result[formattedToday].latitude}`;
+      longitude.innerHTML = `Longitude: ${result[formattedToday].longitude}`;
+      country.innerHTML = `Country: ${result[formattedToday].country}`;
+      formattedTravelDate.innerHTML = `Travel Date: ${result[formattedToday].formattedTravelDate}`;
+      daysBeforeDeparture.innerHTML = `Days Before Departure: ${result[formattedToday].daysBeforeDeparture}`;
+
+      if (result[formattedToday].currentForecast) {
+        currentForecast.innerHTML = `Current Forecast: ${result[formattedToday].currentForecast}`;
+        predictedForecast.innerHTML = "";
+      }
+
+      if (result[formattedToday].predictedForecast) {
+        predictedForecast.innerHTML = `Predicted Forecast: ${result[formattedToday].predictedForecast}`;
+        currentForecast.innerHTML = "";
+      }
+
+      locationPicture.src = result[formattedToday].imageURL;
+      locationPicture.height = "300";
+      locationPicture.width = "300";
+
+      error.innerHTML = "";
     }
-
-    locationPicture.src = result[formattedToday].imageURL;
-    locationPicture.height = "300";
-    locationPicture.width = "300";
-
-    error.innerHTML = `Error: ${result[formattedToday].error}`;
   });
 }
 
