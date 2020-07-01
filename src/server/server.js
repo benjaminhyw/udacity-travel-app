@@ -79,9 +79,9 @@ function sendData(request, response) {
   response.send(projectData);
 }
 
-app.post("/add", geonamesCallBack);
+app.post("/add", addCallback);
 
-function geonamesCallBack(request, response) {
+function addCallback(request, response) {
   console.log("POST");
   fetchGeonamesData(request.body.city)
     .then((res) => {
