@@ -59,6 +59,7 @@ async function getAllCityData(route) {
   const currentForecast = document.getElementById("currentForecast");
   const predictedForecast = document.getElementById("predictedForecast");
   const locationPicture = document.getElementById("locationPicture");
+  const error = document.getElementById("error");
 
   await fetch(route).then(async (result) => {
     result = await result.json();
@@ -84,6 +85,8 @@ async function getAllCityData(route) {
     locationPicture.src = result[formattedToday].imageURL;
     locationPicture.height = "300";
     locationPicture.width = "300";
+
+    error.innerHTML = `Error: ${result[formattedToday].error}`;
   });
 }
 

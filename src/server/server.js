@@ -88,37 +88,46 @@ function addCallback(request, response) {
       return res;
     })
     .then((geonamesRes) => {
-      fetchWeatherbitData(
-        geonamesRes.geonames[0].lat,
-        geonamesRes.geonames[0].lng,
-        request.body.daysBeforeDeparture
-      ).then((weatherbitRes) => {
-        fetchPixabayData(request.body.city).then((pixabayRes) => {
-          let updatedProjectData = {
-            cityName: request.body.city,
-            latitude: geonamesRes.geonames[0].lat,
-            longitude: geonamesRes.geonames[0].lng,
-            country: geonamesRes.geonames[0].countryName,
-            formattedTodaysDate: request.body.formattedTodaysDate,
-            formattedTravelDate: request.body.formattedTravelDate,
-            daysBeforeDeparture: request.body.daysBeforeDeparture,
-            imageURL: pixabayRes.hits[0].largeImageURL, // BEN TODO: Add validation for entris that don't return an image.  "Burlingame" triggered this error.
-          };
+      if (geonamesRes.geonames.length > 0) {
+        fetchWeatherbitData(
+          geonamesRes.geonames[0].lat,
+          geonamesRes.geonames[0].lng,
+          request.body.daysBeforeDeparture
+        ).then((weatherbitRes) => {
+          fetchPixabayData(request.body.city).then((pixabayRes) => {
+            let updatedProjectData = {
+              cityName: request.body.city,
+              latitude: geonamesRes.geonames[0].lat,
+              longitude: geonamesRes.geonames[0].lng,
+              country: geonamesRes.geonames[0].countryName,
+              formattedTodaysDate: request.body.formattedTodaysDate,
+              formattedTravelDate: request.body.formattedTravelDate,
+              daysBeforeDeparture: request.body.daysBeforeDeparture,
+              imageURL: pixabayRes.hits[0].largeImageURL, // BEN TODO: Add validation for entris that don't return an image.  "Burlingame" triggered this error.
+            };
 
-          if (updatedProjectData.daysBeforeDeparture <= 7) {
-            updatedProjectData.currentForecast =
-              weatherbitRes.data[0].weather.description;
-            updatedProjectData.predictedForecast = undefined;
-          } else {
-            updatedProjectData.predictedForecast =
-              weatherbitRes.data[0].weather.description;
-            updatedProjectData.currentForecast = undefined;
-          }
+            if (updatedProjectData.daysBeforeDeparture <= 7) {
+              updatedProjectData.currentForecast =
+                weatherbitRes.data[0].weather.description;
+              updatedProjectData.predictedForecast = undefined;
+            } else {
+              updatedProjectData.predictedForecast =
+                weatherbitRes.data[0].weather.description;
+              updatedProjectData.currentForecast = undefined;
+            }
 
-          projectData[request.body.formattedTodaysDate] = updatedProjectData;
+            projectData[request.body.formattedTodaysDate] = updatedProjectData;
 
-          response.send(weatherbitRes);
+            response.send(weatherbitRes);
+          });
         });
-      });
+      } else {
+        projectData[request.body.formattedTodaysDate] = {
+          error:
+            "Could not find requested city.  Please check spelling, and try again.",
+        };
+
+        response.send(geonamesRes);
+      }
     });
 }
