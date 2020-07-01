@@ -1,6 +1,6 @@
 // Create a new date instance dynamically with JS
-let today = new Date();
-let formattedToday =
+const today = new Date();
+const formattedToday =
   today.getMonth() + "." + today.getDate() + "." + today.getFullYear();
 
 async function submitHandler(event) {
@@ -11,18 +11,18 @@ async function submitHandler(event) {
   if (!Client.isValueEmpty(cityValue) && !Client.isValueEmpty(dateValue)) {
     console.log("::: Form Submitted :::");
 
-    let travelDate = new Date(dateValue);
-    let formattedTravelDate =
+    const travelDate = new Date(dateValue);
+    const formattedTravelDate =
       travelDate.getMonth() +
       "." +
       travelDate.getDate() +
       "." +
       travelDate.getFullYear();
-    let todaysDate = new Date(today.toLocaleDateString());
-    let timesDiff = travelDate.getTime() - todaysDate.getTime();
+    const todaysDate = new Date(today.toLocaleDateString());
+    const timesDiff = travelDate.getTime() - todaysDate.getTime();
 
     if (Math.sign(timesDiff) !== -1) {
-      let daysBeforeDeparture = Math.ceil(timesDiff / (1000 * 3600 * 24));
+      const daysBeforeDeparture = Math.ceil(timesDiff / (1000 * 3600 * 24));
 
       await fetch("http://localhost:8081/add", {
         method: "POST",
