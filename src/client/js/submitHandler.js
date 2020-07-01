@@ -17,8 +17,8 @@ async function submitHandler(event) {
       travelDate.getDate() +
       "." +
       travelDate.getFullYear();
-    let today = new Date(d.toLocaleDateString());
-    let timesDiff = travelDate.getTime() - today.getTime();
+    let todaysDate = new Date(d.toLocaleDateString());
+    let timesDiff = travelDate.getTime() - todaysDate.getTime();
 
     if (Math.sign(timesDiff) !== -1) {
       let daysBeforeDeparture = Math.ceil(timesDiff / (1000 * 3600 * 24));
