@@ -2,7 +2,7 @@
 let d = new Date();
 let newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
 
-async function cityNameSubmitButtonClickHandler(event) {
+async function submitHandler(event) {
   const city = document.getElementById("city").value.trim();
   const dateValue = document.getElementById("date").value;
   event.preventDefault();
@@ -74,4 +74,4 @@ async function getAllCityData(route) {
   });
 }
 
-export { cityNameSubmitButtonClickHandler };
+export { submitHandler };
