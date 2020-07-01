@@ -4,29 +4,34 @@ let newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
 
 async function cityNameSubmitButtonClickHandler(event) {
   const city = document.getElementById("city").value;
-  let d2 = new Date(document.getElementById("date").value);
-  let formattedTravelDate =
-    d2.getMonth() + "." + d2.getDate() + "." + d2.getFullYear();
-  let today = new Date(d.toLocaleDateString());
-  let timesDiff = Math.abs(d2.getTime() - today.getTime());
-  let diffDays = Math.ceil(timesDiff / (1000 * 3600 * 24));
-
+  const dateValue = document.getElementById("date").value;
   event.preventDefault();
 
-  await fetch("http://localhost:8081/add", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      city: city,
-      travelDate: formattedTravelDate,
-      todaysDate: newDate,
-      daysBeforeDeparture: diffDays,
-    }),
-  }).then(async () => {
-    await getAllCityData("http://localhost:8081/all");
-  });
+  if (!Client.isValueEmpty(city) && !Client.isValueEmpty(dateValue)) {
+    let d2 = new Date(dateValue);
+    let formattedTravelDate =
+      d2.getMonth() + "." + d2.getDate() + "." + d2.getFullYear();
+    let today = new Date(d.toLocaleDateString());
+    let timesDiff = Math.abs(d2.getTime() - today.getTime());
+    let diffDays = Math.ceil(timesDiff / (1000 * 3600 * 24));
+
+    await fetch("http://localhost:8081/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        city: city,
+        travelDate: formattedTravelDate,
+        todaysDate: newDate,
+        daysBeforeDeparture: diffDays,
+      }),
+    }).then(async () => {
+      await getAllCityData("http://localhost:8081/all");
+    });
+  } else {
+    alert("One of your inputs is missing a value, please try again.");
+  }
 }
 
 async function getAllCityData(route) {
