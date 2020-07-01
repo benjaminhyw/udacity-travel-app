@@ -3,11 +3,12 @@ let d = new Date();
 let newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
 
 async function submitHandler(event) {
-  const city = document.getElementById("city").value.trim();
-  const dateValue = document.getElementById("date").value;
   event.preventDefault();
+  const cityValue = document.getElementById("city").value.trim();
+  const dateValue = document.getElementById("date").value;
 
-  if (!Client.isValueEmpty(city) && !Client.isValueEmpty(dateValue)) {
+  if (!Client.isValueEmpty(cityValue) && !Client.isValueEmpty(dateValue)) {
+    console.log("::: Form Submitted :::");
     let d2 = new Date(dateValue);
     let formattedTravelDate =
       d2.getMonth() + "." + d2.getDate() + "." + d2.getFullYear();
@@ -21,7 +22,7 @@ async function submitHandler(event) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        city: city,
+        city: cityValue,
         travelDate: formattedTravelDate,
         todaysDate: newDate,
         daysBeforeDeparture: diffDays,
