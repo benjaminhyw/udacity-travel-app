@@ -40,18 +40,14 @@ app.listen(port, function () {
   console.log(`Example app listening on port ${port}!`);
 });
 
-async function fetchWeatherDataGEONAMES(cityName) {
+async function fetchGeonamesData(cityName) {
   const query = `${GEONAMES_BASEURL}${cityName}&username=${GEONAMES_USERNAME}`;
   const response = await fetch(query);
 
   return await response.json();
 }
 
-async function fetchWeatherDataWEATHERBIT(
-  latitude,
-  longitude,
-  daysBeforeDeparture
-) {
+async function fetchWeatherbitData(latitude, longitude, daysBeforeDeparture) {
   let query = "";
 
   if (daysBeforeDeparture <= 7) {
@@ -62,12 +58,11 @@ async function fetchWeatherDataWEATHERBIT(
 
   query = `${query}&lat=${latitude}&lon=${longitude}&key=${WEATHERBIT_APIKEY}`;
   const response = await fetch(query);
-  console.log("Inside fetchWeatherDataWeatherbit");
 
   return await response.json();
 }
 
-async function fetchWeatherDataPIXABAY(cityName) {
+async function fetchPixabayData(cityName) {
   const query = `${PIXABAY_BASEURL}${cityName}`;
   const response = await fetch(query);
 
@@ -88,19 +83,17 @@ app.post("/add", geonamesCallBack);
 
 function geonamesCallBack(request, response) {
   console.log("POST");
-  fetchWeatherDataGEONAMES(request.body.city)
+  fetchGeonamesData(request.body.city)
     .then((res) => {
       return res;
     })
     .then((geonamesRes) => {
-      fetchWeatherDataWEATHERBIT(
+      fetchWeatherbitData(
         geonamesRes.geonames[0].lat,
         geonamesRes.geonames[0].lng,
         request.body.daysBeforeDeparture
       ).then((weatherbitRes) => {
-        console.log(weatherbitRes);
-
-        fetchWeatherDataPIXABAY(request.body.city).then((pixabayRes) => {
+        fetchPixabayData(request.body.city).then((pixabayRes) => {
           let updatedProjectData = {
             cityName: request.body.city,
             latitude: geonamesRes.geonames[0].lat,
@@ -109,10 +102,8 @@ function geonamesCallBack(request, response) {
             formattedTodaysDate: request.body.formattedTodaysDate,
             formattedTravelDate: request.body.formattedTravelDate,
             daysBeforeDeparture: request.body.daysBeforeDeparture,
-            imageURL: pixabayRes.hits[0].largeImageURL, // might need validation if no result found.  "burlingame" triggered this error.
+            imageURL: pixabayRes.hits[0].largeImageURL, // BEN TODO: Add validation for entris that don't return an image.  "Burlingame" triggered this error.
           };
-
-          console.log(weatherbitRes);
 
           if (updatedProjectData.daysBeforeDeparture <= 7) {
             updatedProjectData.currentForecast =
