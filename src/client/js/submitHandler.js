@@ -1,6 +1,7 @@
 // Create a new date instance dynamically with JS
-let d = new Date();
-let newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
+let today = new Date();
+let newDate =
+  today.getMonth() + "." + today.getDate() + "." + today.getFullYear();
 
 async function submitHandler(event) {
   event.preventDefault();
@@ -17,7 +18,7 @@ async function submitHandler(event) {
       travelDate.getDate() +
       "." +
       travelDate.getFullYear();
-    let todaysDate = new Date(d.toLocaleDateString());
+    let todaysDate = new Date(today.toLocaleDateString());
     let timesDiff = travelDate.getTime() - todaysDate.getTime();
 
     if (Math.sign(timesDiff) !== -1) {
