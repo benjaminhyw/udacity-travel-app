@@ -3,7 +3,7 @@ let d = new Date();
 let newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
 
 async function cityNameSubmitButtonClickHandler(event) {
-  const city = document.getElementById("city").value;
+  const city = document.getElementById("city").value.trim();
   const dateValue = document.getElementById("date").value;
   event.preventDefault();
 
