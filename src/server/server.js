@@ -9,13 +9,24 @@ dotenv.config();
 
 const app = express();
 app.use(cors());
-// // Initialize the main project folder
-app.use(express.static("dist"));
+app.use(express.static("dist")); // Initialize the main project folder
 app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support url encoded bodies
 
 // Setup Server
 const port = 8081;
+
+// Estabish API keys & base URL's
+const GEONAMES_USERNAME = process.env.GEONAMES_USERNAME;
+const GEONAMES_BASEURL = "http://api.geonames.org/searchJSON?q=";
+
+const WEATHERBIT_APIKEY = process.env.WEATHERBIT_APIKEY;
+const WEATHERBIT_CURRENT_BASEURL = "https://api.weatherbit.io/v2.0/current?";
+const WEATHERBIT_FORECAST_BASEURL =
+  "https://api.weatherbit.io/v2.0/forecast/daily?";
+
+const PIXABAY_APIKEY = process.env.PIXABAY_APIKEY;
+const PIXABAY_BASEURL = `https://pixabay.com/api/?key=${PIXABAY_APIKEY}&q=`;
 
 console.log(__dirname);
 
@@ -28,47 +39,31 @@ app.listen(port, function () {
   console.log(`Example app listening on port ${port}!`);
 });
 
-const GEONAMESUSERNAME = process.env.GEONAMESUSERNAME;
-const GEONAMESBASEURL = "http://api.geonames.org/searchJSON?q=";
-
-const WEATHERBITAPI_KEY = process.env.WEATHERBITAPI_KEY;
-const WEATHERBITCURRENTWEATHERBASEURL =
-  "https://api.weatherbit.io/v2.0/current?";
-const WEATHERBITFORECASTBASEURL =
-  "https://api.weatherbit.io/v2.0/forecast/daily?";
-
-const PIXABAYAPIKEY = process.env.PIXABAYAPIKEY;
-const PIXABAYBASEURL = `https://pixabay.com/api/?key=${PIXABAYAPIKEY}&q=`;
-
-async function fetchWeatherDataGEONAMES(cityName) {
-  const query = `${GEONAMESBASEURL}${cityName}&username=${GEONAMESUSERNAME}`;
+// Establish fetch API functions
+async function fetchGeonamesData(cityName) {
+  const query = `${GEONAMES_BASEURL}${cityName}&username=${GEONAMES_USERNAME}`;
   const response = await fetch(query);
 
   return await response.json();
 }
 
-async function fetchWeatherDataWEATHERBIT(
-  latitude,
-  longitude,
-  daysBeforeDeparture
-) {
+async function fetchWeatherbitData(latitude, longitude, daysBeforeDeparture) {
   let query = "";
 
   if (daysBeforeDeparture <= 7) {
-    query = `${WEATHERBITCURRENTWEATHERBASEURL}`;
+    query = `${WEATHERBIT_CURRENT_BASEURL}`;
   } else {
-    query = `${WEATHERBITFORECASTBASEURL}`;
+    query = `${WEATHERBIT_FORECAST_BASEURL}`;
   }
 
-  query = `${query}&lat=${latitude}&lon=${longitude}&key=${WEATHERBITAPI_KEY}`;
+  query = `${query}&lat=${latitude}&lon=${longitude}&key=${WEATHERBIT_APIKEY}`;
   const response = await fetch(query);
-  console.log("Inside fetchWeatherDataWeatherbit");
 
   return await response.json();
 }
 
-async function fetchWeatherDataPIXABAY(cityName) {
-  const query = `${PIXABAYBASEURL}${cityName}`;
+async function fetchPixabayData(cityName) {
+  const query = `${PIXABAY_BASEURL}${cityName}`;
   const response = await fetch(query);
 
   return await response.json();
@@ -84,50 +79,60 @@ function sendData(request, response) {
   response.send(projectData);
 }
 
-app.post("/add", geonamesCallBack);
+app.post("/add", addCallback);
 
-function geonamesCallBack(request, response) {
-  console.log("POST");
-  fetchWeatherDataGEONAMES(request.body.city)
+function addCallback(request, response) {
+  console.log("POST /add");
+  fetchGeonamesData(request.body.city)
     .then((res) => {
       return res;
     })
     .then((geonamesRes) => {
-      fetchWeatherDataWEATHERBIT(
-        geonamesRes.geonames[0].lat,
-        geonamesRes.geonames[0].lng,
-        request.body.daysBeforeDeparture
-      ).then((weatherbitRes) => {
-        console.log(weatherbitRes);
+      if (geonamesRes.geonames.length > 0) {
+        fetchWeatherbitData(
+          geonamesRes.geonames[0].lat,
+          geonamesRes.geonames[0].lng,
+          request.body.daysBeforeDeparture
+        ).then((weatherbitRes) => {
+          fetchPixabayData(request.body.city).then((pixabayRes) => {
+            let updatedProjectData = {
+              cityName: request.body.city,
+              latitude: geonamesRes.geonames[0].lat,
+              longitude: geonamesRes.geonames[0].lng,
+              country: geonamesRes.geonames[0].countryName,
+              formattedTodaysDate: request.body.formattedTodaysDate,
+              formattedTravelDate: request.body.formattedTravelDate,
+              daysBeforeDeparture: request.body.daysBeforeDeparture,
+            };
 
-        fetchWeatherDataPIXABAY(request.body.city).then((pixabayRes) => {
-          let updatedProjectData = {
-            cityName: request.body.city,
-            latitude: geonamesRes.geonames[0].lat,
-            longitude: geonamesRes.geonames[0].lng,
-            country: geonamesRes.geonames[0].countryName,
-            todaysDate: request.body.todaysDate,
-            travelDate: request.body.travelDate,
-            daysBeforeDeparture: request.body.daysBeforeDeparture,
-            imageURL: pixabayRes.hits[0].largeImageURL,
-          };
+            if (updatedProjectData.daysBeforeDeparture <= 7) {
+              updatedProjectData.currentForecast =
+                weatherbitRes.data[0].weather.description;
+              updatedProjectData.predictedForecast = undefined;
+            } else {
+              updatedProjectData.predictedForecast =
+                weatherbitRes.data[0].weather.description;
+              updatedProjectData.currentForecast = undefined;
+            }
 
-          console.log(weatherbitRes);
+            if (pixabayRes.hits.length > 0) {
+              updatedProjectData.imageURL = pixabayRes.hits[0].largeImageURL;
+            } else {
+              updatedProjectData.imageURL = undefined;
+            }
 
-          if (updatedProjectData.daysBeforeDeparture <= 7) {
-            updatedProjectData.currentForecast =
-              weatherbitRes.data[0].weather.description;
-            updatedProjectData.predictedForecast = undefined;
-          } else {
-            updatedProjectData.predictedForecast =
-              weatherbitRes.data[0].weather.description;
-            updatedProjectData.currentForecast = undefined;
-          }
+            projectData[request.body.formattedTodaysDate] = updatedProjectData;
 
-          projectData[request.body.todaysDate] = updatedProjectData;
-
-          response.send(weatherbitRes);
+            response.send(weatherbitRes);
+          });
         });
-      });
+      } else {
+        projectData[request.body.formattedTodaysDate] = {
+          error:
+            "Could not find requested city.  Please check spelling, and try again.",
+        };
+
+        response.send(geonamesRes);
+      }
     });
 }

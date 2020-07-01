@@ -1739,11 +1739,6 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.10.0.tgz#a17b3a8ea811060e74d47d306122400ad4497ae2"
   integrity sha512-3YDiu347mtVtjpyV3u5kVqQLP242c06zwDOgpeRnybmXlYYsLbtTrUBUm8i8srONt+FWobl5aibnU1030PeeuA==
 
-aylien_textapi@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/aylien_textapi/-/aylien_textapi-0.7.0.tgz#01c9e269207dcd0da0aafaa33e062620ece4c5e3"
-  integrity sha1-AcniaSB9zQ2gqvqjPgYmIOzkxeM=
-
 babel-extract-comments@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/babel-extract-comments/-/babel-extract-comments-1.0.0.tgz#0a2aedf81417ed391b85e18b4614e693a0351a21"
