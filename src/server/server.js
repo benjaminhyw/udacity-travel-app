@@ -103,7 +103,6 @@ function addCallback(request, response) {
               formattedTodaysDate: request.body.formattedTodaysDate,
               formattedTravelDate: request.body.formattedTravelDate,
               daysBeforeDeparture: request.body.daysBeforeDeparture,
-              imageURL: pixabayRes.hits[0].largeImageURL, // BEN TODO: Add validation for entris that don't return an image.  "Burlingame" triggered this error.
             };
 
             if (updatedProjectData.daysBeforeDeparture <= 7) {
@@ -114,6 +113,12 @@ function addCallback(request, response) {
               updatedProjectData.predictedForecast =
                 weatherbitRes.data[0].weather.description;
               updatedProjectData.currentForecast = undefined;
+            }
+
+            if (pixabayRes.hits.length > 0) {
+              updatedProjectData.imageURL = pixabayRes.hits[0].largeImageURL;
+            } else {
+              updatedProjectData.imageURL = undefined;
             }
 
             projectData[request.body.formattedTodaysDate] = updatedProjectData;

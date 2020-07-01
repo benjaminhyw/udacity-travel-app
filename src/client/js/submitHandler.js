@@ -75,9 +75,15 @@ async function getAllCityData(route) {
       daysBeforeDeparture.innerHTML = "";
       currentForecast.innerHTML = "";
       predictedForecast.innerHTML = "";
-      locationPicture.src = "";
-      locationPicture.height = "0";
-      locationPicture.width = "0";
+
+      if (result[formattedToday].imageURL) {
+        locationPicture.src = result[formattedToday].imageURL;
+        locationPicture.title = result[formattedToday].cityName;
+      } else {
+        locationPicture.src =
+          "https://pixabay.com/get/57e9d3454e56a414f6da8c7dda7936791737dce452566c48702678d19e4dc45bbe_1280.jpg";
+        locationPicture.title = "No picture found!";
+      }
     } else {
       formattedTodaysDate.innerHTML = `Today's Date: ${result[formattedToday].formattedTodaysDate}`;
       cityName.innerHTML = `Target Destination: ${result[formattedToday].cityName}`;
@@ -97,9 +103,16 @@ async function getAllCityData(route) {
         currentForecast.innerHTML = "";
       }
 
-      locationPicture.src = result[formattedToday].imageURL;
       locationPicture.height = "300";
       locationPicture.width = "300";
+      if (result[formattedToday].imageURL) {
+        locationPicture.src = result[formattedToday].imageURL;
+        locationPicture.title = result[formattedToday].cityName;
+      } else {
+        locationPicture.src =
+          "https://pixabay.com/get/57e9d3454e56a414f6da8c7dda7936791737dce452566c48702678d19e4dc45bbe_1280.jpg";
+        locationPicture.title = "No picture found!";
+      }
 
       error.innerHTML = "";
     }
