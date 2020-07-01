@@ -100,31 +100,34 @@ function geonamesCallBack(request, response) {
       ).then((weatherbitRes) => {
         console.log(weatherbitRes);
 
-        let updatedProjectData = {
-          cityName: request.body.city,
-          latitude: geonamesRes.geonames[0].lat,
-          longitude: geonamesRes.geonames[0].lng,
-          country: geonamesRes.geonames[0].countryName,
-          todaysDate: request.body.todaysDate,
-          travelDate: request.body.travelDate,
-          daysBeforeDeparture: request.body.daysBeforeDeparture,
-        };
+        fetchWeatherDataPIXABAY(request.body.city).then((pixabayRes) => {
+          let updatedProjectData = {
+            cityName: request.body.city,
+            latitude: geonamesRes.geonames[0].lat,
+            longitude: geonamesRes.geonames[0].lng,
+            country: geonamesRes.geonames[0].countryName,
+            todaysDate: request.body.todaysDate,
+            travelDate: request.body.travelDate,
+            daysBeforeDeparture: request.body.daysBeforeDeparture,
+            imageURL: pixabayRes.hits[0].largeImageURL,
+          };
 
-        console.log(weatherbitRes);
+          console.log(weatherbitRes);
 
-        if (updatedProjectData.daysBeforeDeparture <= 7) {
-          updatedProjectData.currentForecast =
-            weatherbitRes.data[0].weather.description;
-          updatedProjectData.predictedForecast = undefined;
-        } else {
-          updatedProjectData.predictedForecast =
-            weatherbitRes.data[0].weather.description;
-          updatedProjectData.currentForecast = undefined;
-        }
+          if (updatedProjectData.daysBeforeDeparture <= 7) {
+            updatedProjectData.currentForecast =
+              weatherbitRes.data[0].weather.description;
+            updatedProjectData.predictedForecast = undefined;
+          } else {
+            updatedProjectData.predictedForecast =
+              weatherbitRes.data[0].weather.description;
+            updatedProjectData.currentForecast = undefined;
+          }
 
-        projectData[request.body.todaysDate] = updatedProjectData;
+          projectData[request.body.todaysDate] = updatedProjectData;
 
-        response.send(weatherbitRes);
+          response.send(weatherbitRes);
+        });
       });
     });
 }
