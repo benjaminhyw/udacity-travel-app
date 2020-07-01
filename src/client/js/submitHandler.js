@@ -10,11 +10,15 @@ async function submitHandler(event) {
   if (!Client.isValueEmpty(cityValue) && !Client.isValueEmpty(dateValue)) {
     console.log("::: Form Submitted :::");
 
-    let d2 = new Date(dateValue);
+    let travelDate = new Date(dateValue);
     let formattedTravelDate =
-      d2.getMonth() + "." + d2.getDate() + "." + d2.getFullYear();
+      travelDate.getMonth() +
+      "." +
+      travelDate.getDate() +
+      "." +
+      travelDate.getFullYear();
     let today = new Date(d.toLocaleDateString());
-    let timesDiff = d2.getTime() - today.getTime();
+    let timesDiff = travelDate.getTime() - today.getTime();
 
     if (Math.sign(timesDiff) !== -1) {
       let daysBeforeDeparture = Math.ceil(timesDiff / (1000 * 3600 * 24));
