@@ -14,7 +14,7 @@ async function submitHandler(event) {
       d2.getMonth() + "." + d2.getDate() + "." + d2.getFullYear();
     let today = new Date(d.toLocaleDateString());
     let timesDiff = Math.abs(d2.getTime() - today.getTime());
-    let diffDays = Math.ceil(timesDiff / (1000 * 3600 * 24));
+    let daysBeforeDeparture = Math.ceil(timesDiff / (1000 * 3600 * 24));
 
     await fetch("http://localhost:8081/add", {
       method: "POST",
@@ -25,7 +25,7 @@ async function submitHandler(event) {
         city: cityValue,
         travelDate: formattedTravelDate,
         todaysDate: newDate,
-        daysBeforeDeparture: diffDays,
+        daysBeforeDeparture: daysBeforeDeparture,
       }),
     }).then(async () => {
       await getAllCityData("http://localhost:8081/all");
