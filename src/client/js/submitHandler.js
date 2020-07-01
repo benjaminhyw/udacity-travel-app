@@ -1,3 +1,7 @@
+// Create a new date instance dynamically with JS
+let d = new Date();
+let newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
+
 async function submitHandler(event) {
   event.preventDefault();
   const cityValue = document.getElementById("city").value.trim();
@@ -5,10 +9,6 @@ async function submitHandler(event) {
 
   if (!Client.isValueEmpty(cityValue) && !Client.isValueEmpty(dateValue)) {
     console.log("::: Form Submitted :::");
-
-    // Create a new date instance dynamically with JS
-    let d = new Date();
-    let newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
 
     let d2 = new Date(dateValue);
     let formattedTravelDate =
