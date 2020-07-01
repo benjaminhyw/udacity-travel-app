@@ -9,29 +9,37 @@ async function submitHandler(event) {
 
   if (!Client.isValueEmpty(cityValue) && !Client.isValueEmpty(dateValue)) {
     console.log("::: Form Submitted :::");
+
     let d2 = new Date(dateValue);
     let formattedTravelDate =
       d2.getMonth() + "." + d2.getDate() + "." + d2.getFullYear();
     let today = new Date(d.toLocaleDateString());
-    let timesDiff = Math.abs(d2.getTime() - today.getTime());
-    let daysBeforeDeparture = Math.ceil(timesDiff / (1000 * 3600 * 24));
+    let timesDiff = d2.getTime() - today.getTime();
 
-    await fetch("http://localhost:8081/add", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        city: cityValue,
-        travelDate: formattedTravelDate,
-        todaysDate: newDate,
-        daysBeforeDeparture: daysBeforeDeparture,
-      }),
-    }).then(async () => {
-      await getAllCityData("http://localhost:8081/all");
-    });
+    if (Math.sign(timesDiff) !== -1) {
+      let daysBeforeDeparture = Math.ceil(timesDiff / (1000 * 3600 * 24));
+
+      await fetch("http://localhost:8081/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          city: cityValue,
+          travelDate: formattedTravelDate,
+          todaysDate: newDate,
+          daysBeforeDeparture: daysBeforeDeparture,
+        }),
+      }).then(async () => {
+        await getAllCityData("http://localhost:8081/all");
+      });
+    } else {
+      alert(
+        "Selected date must be in the future.  Please select a new future date."
+      );
+    }
   } else {
-    alert("One of your inputs is missing a value, please try again.");
+    alert("Not all input values provided, please try again.");
   }
 }
 
