@@ -1,6 +1,6 @@
 // Create a new date instance dynamically with JS
 let today = new Date();
-let newDate =
+let formattedToday =
   today.getMonth() + "." + today.getDate() + "." + today.getFullYear();
 
 async function submitHandler(event) {
@@ -32,7 +32,7 @@ async function submitHandler(event) {
         body: JSON.stringify({
           city: cityValue,
           formattedTravelDate: formattedTravelDate,
-          formattedTodaysDate: newDate,
+          formattedTodaysDate: formattedToday,
           daysBeforeDeparture: daysBeforeDeparture,
         }),
       }).then(async () => {
@@ -63,24 +63,24 @@ async function getAllCityData(route) {
   await fetch(route).then(async (result) => {
     result = await result.json();
 
-    formattedTodaysDate.innerHTML = `Today's Date: ${result[newDate].formattedTodaysDate}`;
-    cityName.innerHTML = `Target Destination: ${result[newDate].cityName}`;
-    latitude.innerHTML = `Latitude: ${result[newDate].latitude}`;
-    longitude.innerHTML = `Longitude: ${result[newDate].longitude}`;
-    country.innerHTML = `Country: ${result[newDate].country}`;
-    formattedTravelDate.innerHTML = `Travel Date: ${result[newDate].formattedTravelDate}`;
-    daysBeforeDeparture.innerHTML = `Days Before Departure: ${result[newDate].daysBeforeDeparture}`;
+    formattedTodaysDate.innerHTML = `Today's Date: ${result[formattedToday].formattedTodaysDate}`;
+    cityName.innerHTML = `Target Destination: ${result[formattedToday].cityName}`;
+    latitude.innerHTML = `Latitude: ${result[formattedToday].latitude}`;
+    longitude.innerHTML = `Longitude: ${result[formattedToday].longitude}`;
+    country.innerHTML = `Country: ${result[formattedToday].country}`;
+    formattedTravelDate.innerHTML = `Travel Date: ${result[formattedToday].formattedTravelDate}`;
+    daysBeforeDeparture.innerHTML = `Days Before Departure: ${result[formattedToday].daysBeforeDeparture}`;
 
-    if (result[newDate].currentForecast) {
-      currentForecast.innerHTML = `Current Forecast: ${result[newDate].currentForecast}`;
+    if (result[formattedToday].currentForecast) {
+      currentForecast.innerHTML = `Current Forecast: ${result[formattedToday].currentForecast}`;
       predictedForecast.innerHTML = "";
     }
 
-    if (result[newDate].predictedForecast) {
-      predictedForecast.innerHTML = `Predicted Forecast: ${result[newDate].predictedForecast}`;
+    if (result[formattedToday].predictedForecast) {
+      predictedForecast.innerHTML = `Predicted Forecast: ${result[formattedToday].predictedForecast}`;
       currentForecast.innerHTML = "";
     }
-    locationPicture.src = result[newDate].imageURL;
+    locationPicture.src = result[formattedToday].imageURL;
     locationPicture.height = "300";
     locationPicture.width = "300";
   });
