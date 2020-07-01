@@ -75,18 +75,7 @@ async function getAllCityData(route) {
       daysBeforeDeparture.innerHTML = "";
       currentForecast.innerHTML = "";
       predictedForecast.innerHTML = "";
-
-      // BEN TODO: Make this DRY (part 1)
-      locationPicture.height = "300";
-      locationPicture.width = "300";
-      if (result[formattedToday].imageURL) {
-        locationPicture.src = result[formattedToday].imageURL;
-        locationPicture.title = result[formattedToday].cityName;
-      } else {
-        locationPicture.src =
-          "https://pixabay.com/get/57e9d3454e56a414f6da8c7dda7936791737dce452566c48702678d19e4dc45bbe_1280.jpg";
-        locationPicture.title = "No picture found!";
-      }
+      displayImage(locationPicture, result[formattedToday]);
     } else {
       formattedTodaysDate.innerHTML = `Today's Date: ${result[formattedToday].formattedTodaysDate}`;
       cityName.innerHTML = `Target Destination: ${result[formattedToday].cityName}`;
@@ -106,21 +95,24 @@ async function getAllCityData(route) {
         currentForecast.innerHTML = "";
       }
 
-      // BEN TODO: Make this DRY (part 2)
-      locationPicture.height = "300";
-      locationPicture.width = "300";
-      if (result[formattedToday].imageURL) {
-        locationPicture.src = result[formattedToday].imageURL;
-        locationPicture.title = result[formattedToday].cityName;
-      } else {
-        locationPicture.src =
-          "https://pixabay.com/get/57e9d3454e56a414f6da8c7dda7936791737dce452566c48702678d19e4dc45bbe_1280.jpg";
-        locationPicture.title = "No picture found!";
-      }
+      displayImage(locationPicture, result[formattedToday]);
 
       error.innerHTML = "";
     }
   });
+}
+
+function displayImage(locationPicture, results) {
+  locationPicture.height = "300";
+  locationPicture.width = "300";
+  if (results.imageURL) {
+    locationPicture.src = results.imageURL;
+    locationPicture.title = results.cityName;
+  } else {
+    locationPicture.src =
+      "https://pixabay.com/get/57e9d3454e56a414f6da8c7dda7936791737dce452566c48702678d19e4dc45bbe_1280.jpg";
+    locationPicture.title = "No picture found!";
+  }
 }
 
 export { submitHandler };
