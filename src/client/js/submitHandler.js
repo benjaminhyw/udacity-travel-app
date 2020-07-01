@@ -58,8 +58,6 @@ async function getAllCityData(route) {
   await fetch(route).then(async (result) => {
     result = await result.json();
 
-    // BEN TODO: if you use newDate as the way you enter data, it will always get overwritten
-    // You will have to come back to this.
     todaysDate.innerHTML = `Today's Date: ${result[newDate].todaysDate}`;
     cityName.innerHTML = `Target Destination: ${result[newDate].cityName}`;
     latitude.innerHTML = `Latitude: ${result[newDate].latitude}`;
