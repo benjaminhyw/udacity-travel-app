@@ -28,20 +28,20 @@ app.listen(port, function () {
   console.log(`Example app listening on port ${port}!`);
 });
 
-const GEONAMESUSERNAME = process.env.GEONAMESUSERNAME;
+const GEONAMES_USERNAME = process.env.GEONAMES_USERNAME;
 const GEONAMESBASEURL = "http://api.geonames.org/searchJSON?q=";
 
-const WEATHERBITAPI_KEY = process.env.WEATHERBITAPI_KEY;
+const WEATHERBIT_APIKEY = process.env.WEATHERBIT_APIKEY;
 const WEATHERBITCURRENTWEATHERBASEURL =
   "https://api.weatherbit.io/v2.0/current?";
 const WEATHERBITFORECASTBASEURL =
   "https://api.weatherbit.io/v2.0/forecast/daily?";
 
-const PIXABAYAPIKEY = process.env.PIXABAYAPIKEY;
-const PIXABAYBASEURL = `https://pixabay.com/api/?key=${PIXABAYAPIKEY}&q=`;
+const PIXABAY_APIKEY = process.env.PIXABAY_APIKEY;
+const PIXABAYBASEURL = `https://pixabay.com/api/?key=${PIXABAY_APIKEY}&q=`;
 
 async function fetchWeatherDataGEONAMES(cityName) {
-  const query = `${GEONAMESBASEURL}${cityName}&username=${GEONAMESUSERNAME}`;
+  const query = `${GEONAMESBASEURL}${cityName}&username=${GEONAMES_USERNAME}`;
   const response = await fetch(query);
 
   return await response.json();
@@ -60,7 +60,7 @@ async function fetchWeatherDataWEATHERBIT(
     query = `${WEATHERBITFORECASTBASEURL}`;
   }
 
-  query = `${query}&lat=${latitude}&lon=${longitude}&key=${WEATHERBITAPI_KEY}`;
+  query = `${query}&lat=${latitude}&lon=${longitude}&key=${WEATHERBIT_APIKEY}`;
   const response = await fetch(query);
   console.log("Inside fetchWeatherDataWeatherbit");
 
