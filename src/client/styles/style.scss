@@ -10,6 +10,11 @@ body {
   }
 }
 
+// #locationPictureHolder,
+// #travelDetails {
+//   border: 1px red solid;
+// }
+
 #app {
   display: grid;
   grid-auto-rows: minmax(150px, auto);
@@ -28,14 +33,24 @@ body {
 }
 
 .holder {
-  border: 1px solid black;
 }
 
 .entry {
   display: flex;
   background: rgba(59, 74, 107, 0.4);
+  border: 2px solid black;
   width: 1000px;
   height: 500px;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#submitButtonHolder {
+  display: flex;
+  align-items: flex-end;
+  #submit:hover {
+    cursor: pointer;
+  }
 }
 
 #entryHolder {
@@ -47,7 +62,10 @@ body {
 #temp {
 }
 
-#content {
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .headline {
@@ -59,13 +77,15 @@ body {
 /*  Basic Styling To Override Default For Basic HTML Elements */
 label {
   display: block;
-  font-size: 27px;
+  font-size: 22px;
 }
 
 input {
   display: block;
-  height: 60px;
-  width: 320px;
+  padding: 0px;
+  margin: 0px 5px;
+  height: 30px;
+  width: 200px;
   background: #22b2da;
   color: #f0d43a;
   font-size: 20px;
@@ -73,14 +93,19 @@ input {
   border: none;
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+}
+
 button {
-  width: 400px;
-  height: 100px;
+  width: 90px;
+  height: 30px;
   background: #3b4a6b;
   color: #f0d43a;
   font-size: 26px;
   font-family: "Oswald", sans-serif;
   border: none;
+  font-size: 20px;
   box-shadow: 2px 4px 5px #444;
 }
 h1 {

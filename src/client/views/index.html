@@ -14,35 +14,37 @@
         <div class="holder headline">
           Travel App
         </div>
-        <div class="holder entry">
-          <div class="title">Trip Info:</div>
-          <img id="locationPicture" />
-          <div id="entryHolder">
-            <div id="cityName"></div>
-            <!-- <img id="locationPicture" /> -->
-            <div id="formattedTodaysDate"></div>
-            <div id="formattedTravelDate"></div>
-            <div id="daysBeforeDeparture"></div>
-            <div id="latitude"></div>
-            <div id="longitude"></div>
-            <div id="country"></div>
-            <div id="currentForecast"></div>
-            <div id="predictedForecast"></div>
-            <div id="error"></div>
+        <div class="content">
+          <div class="holder entry">
+            <div id="locationPictureHolder">
+              <img id="locationPicture" />
+            </div>
+            <div id="travelDetails">
+              <div id="cityName"></div>
+              <div id="formattedTodaysDate"></div>
+              <div id="formattedTravelDate"></div>
+              <div id="daysBeforeDeparture"></div>
+              <div id="latitude"></div>
+              <div id="longitude"></div>
+              <div id="country"></div>
+              <div id="currentForecast"></div>
+              <div id="predictedForecast"></div>
+              <div id="error"></div>
+            </div>
           </div>
-        </div>
-        <hr />
-        <div class="inputFields">
-          <div class="holder city">
-            <label for="city">Enter City here</label>
-            <input type="text" id="city" placeholder="enter city name here" />
-          </div>
-          <div class="holder date">
-            <label for="city">Enter Date here</label>
-            <input type="date" id="date" name="date" />
-          </div>
-          <div class="holder feel">
-            <button id="submit" type="submit">Submit</button>
+          <hr />
+          <div class="inputFields">
+            <div class="holder city">
+              <label for="city">Travel Destination:</label>
+              <input type="text" id="city" placeholder="enter city name here" />
+            </div>
+            <div class="holder date">
+              <label for="city">Travel Date:</label>
+              <input type="date" id="date" name="date" />
+            </div>
+            <div class="holder" id="submitButtonHolder">
+              <button id="submit" type="submit">Submit</button>
+            </div>
           </div>
         </div>
       </main>
