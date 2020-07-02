@@ -4,7 +4,7 @@
   }
 
   .entry {
-    width: 850px;
+    width: 800px;
     height: 700px;
   }
 
@@ -40,7 +40,49 @@
 }
 
 @media screen and (max-width: 800px) {
+  .entry {
+    width: 650px;
+    height: 600px;
+  }
+
+  .inputFields {
+    label {
+      font-size: 36px;
+    }
+
+    input {
+      height: 35px;
+      width: 450px;
+      font-size: 36px;
+    }
+
+    #submitButtonHolder {
+      button {
+        height: 35px;
+        width: 200px;
+        font-size: 30px;
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 420px) {
+  .headline {
+    font-size: 80px;
+  }
+
+  .entry {
+    width: 350px;
+    height: 500px;
+  }
+
+  label {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .entry {
+    background-color: purple;
+  }
 }
