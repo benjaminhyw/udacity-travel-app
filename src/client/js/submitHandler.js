@@ -103,8 +103,8 @@ async function getAllCityData(route) {
 }
 
 function displayImage(locationPicture, results) {
-  locationPicture.height = "300";
-  locationPicture.width = "300";
+  locationPicture.height = "200";
+  locationPicture.width = "200";
   if (results.imageURL) {
     locationPicture.src = results.imageURL;
     locationPicture.title = results.cityName;
