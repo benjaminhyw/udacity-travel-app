@@ -13,9 +13,11 @@ Takes user input for Location & Date, and hits 3 different API's to retrieve inf
 - Create account on [Weatherbit](https://www.weatherbit.io/account/create), get API Key
 - Create account on [Pixabay](https://pixabay.com/api/docs/), get API Key
 - Create .env file, and add values to the following constants like so (without curly braces):
-  GEONAMES_USERNAME={geonamesUSERNAME}
-  WEATHERBIT_APIKEY={weatherbitAPIKEY}
-  PIXABAY_APIKEY={pixabayAPIKEY}
+    
+    GEONAMES_USERNAME={geonamesUSERNAME}
+    WEATHERBIT_APIKEY={weatherbitAPIKEY}
+    PIXABAY_APIKEY={pixabayAPIKEY}
+
 - (To build dist folder, run `ran build`)
 - In one terminal, run `yarn start` (express)
 - In another terminal, run `yarn dev`
