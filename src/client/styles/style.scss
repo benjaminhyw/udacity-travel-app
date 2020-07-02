@@ -1,4 +1,5 @@
 body {
+  margin: 0;
   background: #fffff8;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -8,7 +9,7 @@ body {
   grid-auto-rows: minmax(150px, auto);
   /* grid-template-columns:  */
   height: 100vh;
-  background: #f23557;
+  background: #046271;
   color: #f0d43a;
   justify-content: center;
   grid-gap: 1em;
@@ -21,9 +22,11 @@ body {
 }
 
 .holder {
+  border: 1px solid black;
 }
 
 .entry {
+  display: flex;
   background: rgba(59, 74, 107, 0.4);
   width: 1000px;
   height: 500px;
