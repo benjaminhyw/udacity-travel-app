@@ -7,6 +7,13 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    hr {
+      height: 1px;
+      width: 95%;
+      border: 1px solid maroon;
+      background-color: maroon;
+    }
   }
 }
 
@@ -45,15 +52,6 @@ body {
   }
 }
 
-#entryHolder {
-}
-
-#date {
-}
-
-#temp {
-}
-
 .content {
   display: flex;
   flex-direction: column;
@@ -62,8 +60,6 @@ body {
 
 .headline {
   font-size: 72px;
-}
-.title {
 }
 
 /*  Basic Styling To Override Default For Basic HTML Elements */
