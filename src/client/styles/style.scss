@@ -10,11 +10,6 @@ body {
   }
 }
 
-// #locationPictureHolder,
-// #travelDetails {
-//   border: 1px red solid;
-// }
-
 #app {
   display: grid;
   grid-auto-rows: minmax(150px, auto);
@@ -30,9 +25,6 @@ body {
 
 .inputFields {
   display: flex;
-}
-
-.holder {
 }
 
 .entry {
