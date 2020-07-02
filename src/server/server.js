@@ -94,7 +94,7 @@ function addCallback(request, response) {
           geonamesRes.geonames[0].lng,
           request.body.daysBeforeDeparture
         ).then((weatherbitRes) => {
-          fetchPixabayData(request.body.city).then((pixabayRes) => {
+          fetchPixabayData(request.body.city).then((pixabayCityRes) => {
             let updatedProjectData = {
               cityName: request.body.city,
               latitude: geonamesRes.geonames[0].lat,
@@ -115,15 +115,33 @@ function addCallback(request, response) {
               updatedProjectData.currentForecast = undefined;
             }
 
-            if (pixabayRes.hits.length > 0) {
-              updatedProjectData.imageURL = pixabayRes.hits[0].largeImageURL;
+            if (pixabayCityRes.hits.length > 0) {
+              updatedProjectData.imageURL =
+                pixabayCityRes.hits[0].largeImageURL;
+
+              projectData[
+                request.body.formattedTodaysDate
+              ] = updatedProjectData;
+
+              response.send(weatherbitRes);
             } else {
-              updatedProjectData.imageURL = undefined;
+              fetchPixabayData(geonamesRes.geonames[0].countryName).then(
+                (pixabayCountryRes) => {
+                  console.log(pixabayCountryRes);
+                  if (pixabayCountryRes.hits.length > 0) {
+                    updatedProjectData.imageURL =
+                      pixabayCountryRes.hits[0].largeImageURL;
+                  } else {
+                    updatedProjectData.imageURL = undefined;
+                  }
+                  projectData[
+                    request.body.formattedTodaysDate
+                  ] = updatedProjectData;
+
+                  response.send(weatherbitRes);
+                }
+              );
             }
-
-            projectData[request.body.formattedTodaysDate] = updatedProjectData;
-
-            response.send(weatherbitRes);
           });
         });
       } else {
