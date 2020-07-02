@@ -16,11 +16,17 @@ body {
   font-family: "Oswald", sans-serif;
 }
 
+.inputFields {
+  display: flex;
+}
+
 .holder {
 }
 
 .entry {
   background: rgba(59, 74, 107, 0.4);
+  width: 1000px;
+  height: 500px;
 }
 
 #entryHolder {

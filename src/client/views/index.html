@@ -11,26 +11,14 @@
   <body>
     <div id="app">
       <main>
-        <hr />
         <div class="holder headline">
           Travel App
-        </div>
-        <div class="holder city">
-          <label for="city">Enter City here</label>
-          <input type="text" id="city" placeholder="enter city name here" />
-        </div>
-        <div class="holder date">
-          <label for="city">Enter Date here</label>
-          <input type="date" id="date" name="date" />
-        </div>
-        <div class="holder feel">
-          <button id="submit" type="submit">Submit</button>
         </div>
         <div class="holder entry">
           <div class="title">Trip Info:</div>
           <div id="entryHolder">
             <div id="cityName"></div>
-            <img id="locationPicture"></img>
+            <img id="locationPicture" />
             <div id="formattedTodaysDate"></div>
             <div id="formattedTravelDate"></div>
             <div id="daysBeforeDeparture"></div>
@@ -40,6 +28,20 @@
             <div id="currentForecast"></div>
             <div id="predictedForecast"></div>
             <div id="error"></div>
+          </div>
+        </div>
+        <hr />
+        <div class="inputFields">
+          <div class="holder city">
+            <label for="city">Enter City here</label>
+            <input type="text" id="city" placeholder="enter city name here" />
+          </div>
+          <div class="holder date">
+            <label for="city">Enter Date here</label>
+            <input type="date" id="date" name="date" />
+          </div>
+          <div class="holder feel">
+            <button id="submit" type="submit">Submit</button>
           </div>
         </div>
       </main>
