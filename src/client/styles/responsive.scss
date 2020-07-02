@@ -1,0 +1,42 @@
+@media screen and (max-width: 1100px) {
+  .headline {
+    font-size: 120px;
+  }
+
+  .entry {
+    width: 850px;
+    height: 700px;
+  }
+
+  .inputFields {
+    flex-direction: column;
+    margin: 15px 0px;
+
+    label {
+      font-size: 64px;
+    }
+
+    input {
+      height: 75px;
+      width: 600px;
+      font-size: 44px;
+    }
+
+    #submitButtonHolder {
+      justify-content: center;
+      margin-top: 15px;
+
+      button {
+        height: 75px;
+        width: 300px;
+        font-size: 56px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+}
+
+@media screen and (max-width: 420px) {
+}
