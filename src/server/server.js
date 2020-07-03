@@ -154,3 +154,5 @@ function addCallback(request, response) {
       }
     });
 }
+
+module.exports = app;
