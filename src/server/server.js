@@ -63,7 +63,7 @@ async function fetchWeatherbitData(latitude, longitude, daysBeforeDeparture) {
 }
 
 async function fetchPixabayData(cityName) {
-  const query = `${PIXABAY_BASEURL}${cityName}`;
+  const query = `${PIXABAY_BASEURL}${cityName}&category=places&image_type=photo`;
   const response = await fetch(query);
 
   return await response.json();
