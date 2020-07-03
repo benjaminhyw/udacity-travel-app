@@ -88,7 +88,11 @@ function addCallback(request, response) {
       return res;
     })
     .then((geonamesRes) => {
-      if (geonamesRes.geonames.length > 0) {
+      if (
+        geonamesRes &&
+        geonamesRes.geonames &&
+        geonamesRes.geonames.length > 0
+      ) {
         fetchWeatherbitData(
           geonamesRes.geonames[0].lat,
           geonamesRes.geonames[0].lng,
@@ -115,7 +119,11 @@ function addCallback(request, response) {
               updatedProjectData.currentForecast = undefined;
             }
 
-            if (pixabayCityRes.hits.length > 0) {
+            if (
+              pixabayCityRes &&
+              pixabayCityRes.hits &&
+              pixabayCityRes.hits.length > 0
+            ) {
               updatedProjectData.imageURL =
                 pixabayCityRes.hits[0].largeImageURL;
 
@@ -128,7 +136,11 @@ function addCallback(request, response) {
               fetchPixabayData(geonamesRes.geonames[0].countryName).then(
                 (pixabayCountryRes) => {
                   console.log(pixabayCountryRes);
-                  if (pixabayCountryRes.hits.length > 0) {
+                  if (
+                    pixabayCityRes &&
+                    pixabayCityRes.hits &&
+                    pixabayCountryRes.hits.length > 0
+                  ) {
                     updatedProjectData.imageURL =
                       pixabayCountryRes.hits[0].largeImageURL;
                   } else {
